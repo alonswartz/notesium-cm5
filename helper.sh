@@ -8,6 +8,7 @@ Usage: $0 COMMAND [ARGS]
 
 Commands:
   import VERSION        import from upstream
+  patch                 apply patches
 
 EOF
 exit 1
@@ -40,11 +41,20 @@ _import() {
     done
 }
 
+_patch() {
+    command -v git >/dev/null || fatal "git not found"
+    for patch in patches/*.patch; do
+        echo "* applying $patch"
+        git apply "$patch" || fatal "failed to apply patch"
+    done
+}
+
 main() {
     cd $(dirname $(realpath $0))
     case $1 in
         ""|-h|--help|help)      usage;;
         import)                 shift; _import $@;;
+        patch)                  _patch;;
         *)                      fatal "unrecognized command: $1";;
     esac
 }
