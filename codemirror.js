@@ -6871,6 +6871,8 @@
     // Ctrl-ScrollLock has keyCode 3, same as Ctrl-Pause,
     // so we'll use event.code when available (Chrome 48+, FF 38+, Safari 10.1+)
     if (event.keyCode == 3 && event.code) { name = event.code; }
+    // Ensure square brackets work on layouts that need a modifier to register
+    if (event.key == '[' || event.key == ']') { name = event.key; }
     return addModifierNames(name, event, noShift)
   }
 
