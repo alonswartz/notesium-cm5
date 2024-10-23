@@ -9,6 +9,7 @@ Usage: $0 COMMAND [ARGS]
 Commands:
   import VERSION        import from upstream
   patch                 apply patches
+  bundle                minify and bundle js and css
 
 EOF
 exit 1
@@ -49,12 +50,25 @@ _patch() {
     done
 }
 
+_bundle() {
+    # https://github.com/tdewolff/minify v2.21.0
+    command -v minify >/dev/null || fatal "minify not found"
+    command -v sha256sum >/dev/null || fatal "sha256sum not found"
+    mkdir -p ./dist
+    minify -o ./dist/notesium-cm5.min.js -b $(_FILES | grep '.js$')
+    minify -o ./dist/notesium-cm5.min.css -b $(_FILES | grep '.css$')
+    echo
+    cd ./dist
+    sha256sum *.js *.css | tee ./checksums.txt
+}
+
 main() {
     cd $(dirname $(realpath $0))
     case $1 in
         ""|-h|--help|help)      usage;;
         import)                 shift; _import $@;;
         patch)                  _patch;;
+        bundle)                 _bundle;;
         *)                      fatal "unrecognized command: $1";;
     esac
 }
