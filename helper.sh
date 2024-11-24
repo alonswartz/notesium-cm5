@@ -24,6 +24,9 @@ mode/gfm/gfm.js
 addon/mode/overlay.js
 addon/selection/active-line.js
 addon/display/placeholder.js
+addon/fold/foldcode.js
+addon/fold/foldgutter.js
+addon/fold/markdown-fold.js
 addon/dialog/dialog.js
 addon/search/searchcursor.js
 keymap/vim.js
