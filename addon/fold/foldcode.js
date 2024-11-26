@@ -51,6 +51,8 @@
     });
     var myRange = cm.markText(range.from, range.to, {
       replacedWith: myWidget,
+      inclusiveLeft: getOption(cm, options, "inclusiveLeft"),
+      inclusiveRight: getOption(cm, options, "inclusiveRight"),
       clearOnEnter: getOption(cm, options, "clearOnEnter"),
       __isFold: true
     });
@@ -139,6 +141,8 @@
     widget: "\u2194",
     minFoldSize: 0,
     scanUp: false,
+    inclusiveLeft: false,
+    inclusiveRight: false,
     clearOnEnter: true
   };
 
