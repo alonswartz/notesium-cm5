@@ -40,8 +40,10 @@ CodeMirror.registerHelper("fold", "markdown", function(cm, start) {
     nextNextLine = cm.getLine(end + 2);
   }
 
+  var includeHeader = cm.options.foldOptions?.markdownIncludeHeader || false;
+  var firstLineCh = includeHeader ? 0 : firstLine.length;
   return {
-    from: CodeMirror.Pos(start.line, firstLine.length),
+    from: CodeMirror.Pos(start.line, firstLineCh),
     to: CodeMirror.Pos(end, cm.getLine(end).length)
   };
 });
