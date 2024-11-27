@@ -1,0 +1,38 @@
+diff --git a/addon/fold/foldcode.js b/addon/fold/foldcode.js
+index a6a51af..cf1eee4 100644
+--- a/addon/fold/foldcode.js
++++ b/addon/fold/foldcode.js
+@@ -51,6 +51,8 @@
+     });
+     var myRange = cm.markText(range.from, range.to, {
+       replacedWith: myWidget,
++      inclusiveLeft: getOption(cm, options, "inclusiveLeft"),
++      inclusiveRight: getOption(cm, options, "inclusiveRight"),
+       clearOnEnter: getOption(cm, options, "clearOnEnter"),
+       __isFold: true
+     });
+@@ -139,6 +141,8 @@
+     widget: "\u2194",
+     minFoldSize: 0,
+     scanUp: false,
++    inclusiveLeft: false,
++    inclusiveRight: false,
+     clearOnEnter: true
+   };
+ 
+diff --git a/addon/fold/markdown-fold.js b/addon/fold/markdown-fold.js
+index 4f9cb02..b7599ce 100644
+--- a/addon/fold/markdown-fold.js
++++ b/addon/fold/markdown-fold.js
+@@ -40,8 +40,10 @@ CodeMirror.registerHelper("fold", "markdown", function(cm, start) {
+     nextNextLine = cm.getLine(end + 2);
+   }
+ 
++  var includeHeader = cm.options.foldOptions?.markdownIncludeHeader || false;
++  var firstLineCh = includeHeader ? 0 : firstLine.length;
+   return {
+-    from: CodeMirror.Pos(start.line, firstLine.length),
++    from: CodeMirror.Pos(start.line, firstLineCh),
+     to: CodeMirror.Pos(end, cm.getLine(end).length)
+   };
+ });
